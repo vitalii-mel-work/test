@@ -1,10 +1,20 @@
-import { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
+import { useState } from 'react';
+import Button from '../components/btn/Button';
+import LoginSignupModal from '../components/forms/LoginSignupModal';
+import { FORM_TYPES } from '../config/config';
 
 export default function Home() {
-  const { account, connectWallet, error } = useContext(AppContext);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalStatus, setModalStatus] = useState(null);
 
-  console.log(error);
+  const openModal = (status) => {
+    setModalOpen(true);
+    setModalStatus(status);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <div className='container'>
@@ -12,17 +22,13 @@ export default function Home() {
         <h2>
           MetaMask <span className='block'>Connect.</span>
         </h2>
-
-        {account ? (
-          <div className='account-box'>
-            <p className='shadow-border'>{account}</p>
-          </div>
-        ) : (
-          <button className='btn shadow-border' onClick={connectWallet}>
-            Connect
-          </button>
-        )}
-        {error && <p className={`error shadow-border`}>{`Error: ${error}`}</p>}
+        <Button onClick={() => openModal(FORM_TYPES.LOGIN)}>Login</Button>
+        <Button onClick={() => openModal(FORM_TYPES.REGISTER)}>Register</Button>
+        <LoginSignupModal
+          typeModal={modalStatus}
+          isOpen={modalOpen}
+          onClose={closeModal}
+        />
       </div>
     </div>
   );
