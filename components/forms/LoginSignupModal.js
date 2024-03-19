@@ -21,10 +21,9 @@ const LoginSignupModal = ({ typeModal, isOpen, onClose }) => {
     }
   };
   const handleMetaMaskSignup = async () => {
-    const localName = userName;
     try {
       setLoading(true);
-      await MetaMaskService.signupWithMetaMask(localName);
+      await MetaMaskService.signupWithMetaMask(userName);
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
